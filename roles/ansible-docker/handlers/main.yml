@@ -1,0 +1,9 @@
+---
+
+- name: restart docker
+  systemd:
+    name="docker"
+    state=restarted
+  become: True
+  become_user: root
+  

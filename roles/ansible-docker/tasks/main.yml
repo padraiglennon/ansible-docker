@@ -1,0 +1,23 @@
+---
+
+- name: "Install the docker-ce packages"
+  yum:
+    name=docker-ce
+    state=latest
+
+- name: Add the users to the {{docker_group}}
+  user:
+    groups='{{docker_group}}'
+    user={{item}}
+    append=True
+  with_items: "{{docker_users}}"
+  notify: restart docker
+
+- name: Add the sudoers file for the docker group
+  template: 
+    src=sudo.j2
+    dest=/etc/sudoers.d/docker
+    mode=0600
+    owner=root
+    group=root
+    validate="/usr/sbin/visudo -cf %s"
