@@ -2,10 +2,12 @@
 
 - name: "Install the docker-ce packages"
   yum:
-    name=docker-ce
+    name={{item}}
     state=latest
+  with_items: "{{docker_packages}}"
+  notify: restart docker
 
-- name: Add the users to the {{docker_group}}
+- name: Add the users to the {{docker_group}} local group
   user:
     groups='{{docker_group}}'
     user={{item}}
@@ -21,3 +23,6 @@
     owner=root
     group=root
     validate="/usr/sbin/visudo -cf %s"
+
+- import_tasks: run-test.yml
+  when: docker_run_test | bool

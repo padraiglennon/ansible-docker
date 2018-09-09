@@ -3,3 +3,16 @@
 docker_users: 
   - 'vagrant'
 docker_group: 'docker'
+
+docker_packages:
+  - docker-ce
+  - device-mapper-persistent-data
+  - lvm2
+  - python-docker-py
+
+# Test settings - Docker Login details must be passed as extra-vars
+docker_login_user: ""
+docker_login_password: ""
+docker_login_email: ""
+docker_run_test: True
+docker_run_test_image: 'hello-world'

@@ -1,0 +1,25 @@
+---
+
+- name: Log into DockerHub
+  docker_login:
+    username: "{{docker_login_user}}"
+    password: "{{docker_login_password}}"
+    email: "{{docker_login_email}}"
+
+- name: "Validate the setup by running the {{docker_run_test_image}} container"
+  docker_container:
+    name: "{{docker_run_test_image}}"
+    image: "{{docker_run_test_image}}"
+    state: started
+
+- name: "Stop and Remove the {{docker_run_test_image}} container"
+  docker_container:
+    name: "{{docker_run_test_image}}"
+    image: "{{docker_run_test_image}}"
+    state: absent
+
+- name: Log out of DockerHub
+  docker_login:
+    state: absent
+    username: "{{docker_login_user}}"
+    email: "{{docker_login_email}}"
